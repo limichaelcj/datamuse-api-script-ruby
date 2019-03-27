@@ -8,13 +8,12 @@ rescue Errno::ENOENT, KeyError
   '.'
 end
 
-def program_error
-  puts "Please provide a chain of arguments: <command> <keyword> etc..."
-  puts "> Commands: related, synonym, antonym, sound, describe, describe_by, rhyme, max, prefix, suffix, spelling, follow, precede, general, specific, comprise, part, topic, trigger, homophone"
+def program_abort
+  puts "Error: Please refer to readme for proper usage."
   abort
 end
 
-program_error unless ARGV.length > 1
+program_abort unless ARGV.length > 1
 
 # data validation
 args = ARGV
@@ -32,8 +31,8 @@ URL = 'https://api.datamuse.com/words'
 
 queries = []
 
-def build_query(command, keyword)
-  case command
+def build_query(query, keyword)
+  case query
   when 'related'
     return "ml=#{keyword}"
   when 'synonym', 'syn'
@@ -54,7 +53,7 @@ def build_query(command, keyword)
     return "sp=#{keyword}*"
   when 'suffix'
     return "sp=*#{keyword}"
-  when 'spelling'
+  when 'spelling', 'spell'
     return "sp=#{keyword}"
   when 'follow'
     return "rel_bga=#{keyword}"
@@ -83,7 +82,10 @@ parameters.each_with_index do |param, index|
   queries.push build_query(param, values[index])
 end
 
-endpoint = "#{URL}?#{queries.join('&')}"
+queryString = queries.join('&')
+program_abort if queryString == ''
+
+endpoint = "#{URL}?#{queryString}"
 
 # API call
 print "Fetching #{endpoint}..."
