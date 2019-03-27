@@ -96,6 +96,9 @@ json = JSON.parse(response.body)
 puts "Done"
 
 data = json.map { |entry| entry["word"] }
+puts "Received #{data.length} results."
+
+abort if data.length < 1
 
 # write data
 filepath = "#{Dir.pwd}/#{OUTPUT_FILE}"
