@@ -5,9 +5,9 @@ Usage (from terminal):
 ```ruby
 ruby datamuse.rb <query> <keyword> <query> <keyword> # etc...
 ```
-*Requires a minimum of two arguments*
+_*Requires a minimum of two arguments (i.e. one query-keyword pair)_
 
-**_NOTE:_** Datamuse API response will be written to the file specified in `config.yml` as JSON.
+**_NOTE:_** Datamuse API response will be written to the file specified in `config.yml` as JSON, relative to the current working directory.
 
 ### Options:
 - `related`: Words related to `keyword`
