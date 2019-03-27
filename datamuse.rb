@@ -3,10 +3,12 @@ require 'json'
 require 'yaml'
 
 OUTPUT_FILE = begin
-  YAML.load_file('config.yml').fetch('output_file')
+  YAML.load_file(File.join(__dir__, 'config.yml')).fetch('output_file')
 rescue Errno::ENOENT, KeyError
   '.'
 end
+
+puts OUTPUT_FILE
 
 def program_abort
   puts "Error: Please refer to readme for proper usage."
@@ -96,8 +98,9 @@ puts "Done"
 data = json.map { |entry| entry["word"] }
 
 # write data
-print "Writing data to datamuse_output.json..."
-File.open(OUTPUT_FILE, 'w') do |file|
+filepath = "#{Dir.pwd}/#{OUTPUT_FILE}"
+print "Writing data to #{filepath}..."
+File.open(filepath, 'w') do |file|
   file.puts "[\n"
   data.each do |word|
     file.puts "  \"#{word}\",\n"
